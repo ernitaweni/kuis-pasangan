@@ -45,8 +45,9 @@ Terakhir dijalankan: **23 November 2026**, di laptop pengembang dengan Firebase 
 | *Integration test* (Security Rules, real-time, presence) | `npm run test:integration` | ✅ 29 test lolos | Semua lolos |
 | Uji tampilan otomatis (22 skenario, 2–4 browser) | lihat §1.3 | ✅ 22/22 lolos. Satu putaran 21/22 karena gangguan lingkungan uji (T5) | Semua lolos |
 | Ukuran JavaScript | `npm run build` | ✅ 189 KB gzip total, 95 KB saat Beranda dibuka | ≤ 200 KB |
-| Lighthouse mobile, Beranda | lihat §7 | ✅ 96 / 100 / 100 / 100 | 90 / 95 / 95 / 90 |
-| Lighthouse mobile, link undangan | lihat §7 | ⚠️ **87** / 100 / 100 / 100 (lihat temuan T1) | 90 / 95 / 95 / 90 |
+| Lighthouse mobile, Beranda | lihat §7 | ✅ 96 / 100 / 100 / 100 (lokal). Produksi: LCP 1,8 dtk, Accessibility, Best Practices, dan SEO 100 | 90 / 95 / 95 / 90 |
+| Lighthouse mobile, link undangan | lihat §7 | ⚠️ **87** / 100 / 100 / 100 (lokal). Produksi: hingga 89, LCP 3,1 dtk (lihat temuan T1) | 90 / 95 / 95 / 90 |
+| Uji fungsi di produksi | `kuis-pasangan.vercel.app`, dua browser | ✅ Buat room, gabung lewat link, mulai serentak, jawaban terbuka "Cocok", room ditutup. Tanpa error | Semua lolos |
 | Audit keamanan dependensi produksi | `npm run audit:prod` | ✅ 0 kerentanan | 0 |
 
 ### 1.1 Unit test skor dan pencocokan jawaban
@@ -93,7 +94,7 @@ Dua sampai empat browser terpisah (masing-masing akun anonim sendiri, layar HP 3
 
 | Kode | Tingkat | Temuan | Status |
 |---|---|---|---|
-| T1 | Mayor (performa) | **Link undangan:** Lighthouse Performance 87 dan LCP 3,5 dtk, di bawah target 90 dan 2,5 dtk. Elemen terbesarnya, judul "{nama Host} ngajak kamu main.", baru bisa tampil setelah Firebase diunduh, login anonim selesai, dan data room terbaca. Beranda tidak terkena karena tidak menunggu Firebase. | **Terbuka.** Ukur ulang di produksi (Fase 6). Opsi perbaikan ada di bawah tabel ini. |
+| T1 | Mayor (performa) | **Link undangan:** Lighthouse Performance 87 dan LCP 3,5 dtk, di bawah target 90 dan 2,5 dtk. Elemen terbesarnya, judul "{nama Host} ngajak kamu main.", baru bisa tampil setelah Firebase diunduh, login anonim selesai, dan data room terbaca. Beranda tidak terkena karena tidak menunggu Firebase. | **Terbuka, membaik di produksi.** Di `kuis-pasangan.vercel.app` (dengan *preconnect*): LCP simulasi 3,1–3,2 dtk, Performance tertinggi 89. Di jaringan nyata (laptop pengembang), undangan tampil dalam **2,4 dtk**. Keputusan opsi di bawah tabel ini menunggu pemilik. |
 | T2 | Minor (SEO) | `robots.txt` belum ada, sehingga server mengembalikan halaman HTML biasa dan SEO hanya 91. | ✅ Diperbaiki: `public/robots.txt`. SEO 100. |
 | T3 | Minor (performa, privasi) | Firebase Auth memuat `api.js` dari Google untuk login *popup*, padahal game ini hanya memakai login anonim. | ✅ Diperbaiki: `initializeAuth` tanpa *popup resolver*, dengan penyimpanan sesi yang sama seperti sebelumnya. Uji E1 dan E3 membuktikan akun tetap sama setelah *refresh*. |
 | T4 | Bukan bug aplikasi (dipantau) | Konsol sesekali menampilkan "Permissions policy violation: unload is not allowed", **hanya saat uji otomatis di dev server**. Muncul di 2 dari 4 putaran. | Kode aplikasi dan *bundle* produksi tidak memakai `unload`. Respons *long-polling* Firebase dan SDK Database juga sudah diperiksa, dan keduanya tidak memakainya. Lighthouse pada build produksi tidak mencatat error konsol. Sumber pastinya belum diketahui, kemungkinan dari lingkungan uji (emulator atau browser headless). Dampaknya nol: Chrome hanya menolak handler itu. Cek ulang di URL produksi (Fase 6). |
@@ -247,6 +248,17 @@ Hasil terakhir (23 November 2026, Lighthouse 12.8, *mobile* dengan simulasi 4G l
 | Link undangan | 87 ⚠️ | 100 | 100 | 100 | 2,4 dtk | 3,5 dtk ⚠️ | 80 ms | 0 |
 
 Sebelum perbaikan T2 dan T3: Beranda 98 / 100 / 100 / 91, link undangan 85 / 100 / 100 / 91.
+
+**Produksi** (`https://kuis-pasangan.vercel.app`, 23 November 2026, dua kali per halaman dari laptop pengembang):
+
+| Halaman | Performance | Accessibility | Best Practices | SEO | FCP | LCP | TBT | CLS |
+|---|---|---|---|---|---|---|---|---|
+| Beranda | 72–90 | 100 | 100 | 100 | 1,7 dtk | **1,8 dtk** ✅ | 370–1.490 ms | 0 |
+| Link undangan | 63–89 | 100 | 100 | 100 | 2,1–2,2 dtk | 3,1–3,2 dtk ⚠️ | 90–1.240 ms | 0 |
+
+Rentang Performance yang lebar berasal dari **TBT**, yang dipengaruhi beban CPU laptop saat audit. FCP, LCP, dan CLS stabil di kedua putaran. Tidak ada error konsol di produksi (T4 tidak muncul). Untuk angka yang stabil, jalankan **https://pagespeed.web.dev** (server Google) untuk kedua URL, lalu catat hasilnya di sini.
+
+Garis waktu link undangan di jaringan nyata (dua percobaan, hasil sama): layar "Menyambungkan…" 0,55 dtk → kode Firebase 0,6 dtk → login anonim 1,5 dtk → koneksi database Singapore 2,2 dtk → **undangan tampil 2,4 dtk**.
 
 Skor Performance bisa naik-turun ±3 antarpengukuran. Jalankan 2–3 kali, lalu ambil nilai tengahnya. Jika laptop sedang sibuk, Lighthouse bisa gagal dengan `PROTOCOL_TIMEOUT` dan menampilkan skor 0 untuk Accessibility dan SEO. Itu kegagalan alat ukur, jadi ulangi audit tanpa program berat lain yang berjalan.
 
