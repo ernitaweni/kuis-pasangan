@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kuis Pasangan · Pratinjau Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400&family=Plus+Jakarta+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --kertas: #FFFFFF;
+    --tinta: #0B2545;
+    --mawar: #E19AA6;
+    --tinta-terang: #2D445F;
+    --tinta-pudar: #4F6279;
+    --bingkai: #8592A2;
+    --garis: #DDE0E5;
+    --kabut: #F0F2F4;
+    --mawar-muda: #F9EBED;
+    --bahaya: #A3354B;
+    --serif: "Literata", Georgia, "Times New Roman", serif;
+    --sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #EEF0F3;
+    color: var(--tinta);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 48px 24px 72px;
+  }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--tinta); outline-offset: 2px; }
+
+  /* ---------- Halaman pratinjau ---------- */
+  .intro, .board, .tokens { max-width: 1600px; margin: 0 auto; }
+  .intro { margin-bottom: 40px; }
+  .intro h1 { font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1.2; }
+  .intro p { color: var(--tinta-pudar); margin-top: 6px; max-width: 64ch; }
+  .intro .replay { margin-top: 16px; }
+  .names { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 20px; }
+  .field { display: grid; gap: 6px; width: 260px; }
+  .field span { font-size: 14px; font-weight: 600; color: var(--tinta-pudar); }
+  .field input {
+    height: 48px; padding: 0 14px; border: 0; border-radius: 12px;
+    box-shadow: inset 0 0 0 1px var(--bingkai); background: var(--kertas);
+    font: 500 16px var(--sans); color: var(--tinta);
+  }
+  .field input:focus-visible { box-shadow: inset 0 0 0 2px var(--tinta); outline: none; }
+
+  .board { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; }
+  .frame { width: 360px; }
+  .frame figcaption { margin-top: 14px; font-size: 14px; color: var(--tinta-pudar); }
+
+  /* ---------- Kerangka layar ---------- */
+  .screen {
+    height: 740px;
+    background: var(--kertas);
+    border-radius: 36px;
+    box-shadow: 0 0 0 1px var(--garis);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .screen-body { flex: 1; overflow: hidden; padding: 20px 20px 0; }
+  .action-bar {
+    display: flex; gap: 12px; align-items: center;
+    padding: 12px 20px 24px;
+    border-top: 1px solid var(--garis);
+    background: var(--kertas);
+  }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; height: 44px; margin: -6px -10px 12px; }
+  .topbar-title { font-size: 15px; font-weight: 600; margin-right: auto; margin-left: 2px; }
+  .icon-btn {
+    width: 44px; height: 44px; border-radius: 50%; border: 0; background: none;
+    display: grid; place-items: center; cursor: pointer;
+  }
+  .text-btn { border: 0; background: none; font-weight: 600; font-size: 15px; padding: 12px 10px; cursor: pointer; }
+  .code-chip { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; cursor: pointer;
+    font-weight: 700; font-size: 15px; letter-spacing: 0.12em; padding: 10px; color: var(--tinta); }
+  .code-chip svg { color: var(--tinta); }
+
+  /* ---------- Tipografi ---------- */
+  .display { font-family: var(--serif); font-weight: 500; font-size: 36px; line-height: 1.12; letter-spacing: -0.015em; }
+  .title { font-family: var(--serif); font-weight: 500; font-size: 28px; line-height: 1.18; letter-spacing: -0.01em; }
+  .question { font-family: var(--serif); font-weight: 500; font-size: 24px; line-height: 1.3; margin-top: 6px; }
+  .lede { color: var(--tinta-pudar); margin-top: 10px; max-width: 32ch; }
+  .group-label { font-size: 14px; font-weight: 600; color: var(--tinta-pudar); margin-bottom: 8px; }
+  .hint { font-size: 14px; font-weight: 600; color: var(--tinta); margin-top: 24px; }
+  .fineprint { font-size: 13px; color: var(--tinta-pudar); margin-top: 20px; max-width: 36ch; }
+
+  /* ---------- Benang ---------- */
+  .thread { display: block; width: 100%; height: auto; overflow: visible; }
+  .thread-names { display: flex; justify-content: space-between; font-size: 13px; color: var(--tinta-pudar); margin-top: 2px; }
+  .thread-names b { display: block; font-size: 14px; font-weight: 600; color: var(--tinta); }
+  .thread-names { gap: 16px; }
+  .thread-names > * { min-width: 0; overflow-wrap: anywhere; }
+  .thread-names > :last-child { text-align: right; }
+  .avatar-text { font: 700 13px var(--sans); fill: #fff; }
+  .thread-label { font: 500 13px var(--sans); fill: var(--tinta-pudar); }
+
+  /* ---------- Tombol ---------- */
+  .btn {
+    appearance: none; border: 0; height: 52px; padding: 0 24px; border-radius: 999px;
+    font-weight: 600; font-size: 16px; line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+    transition: background-color .15s ease-out;
+  }
+  .btn-primary { background: var(--tinta); color: #fff; }
+  .btn-primary:hover { background: var(--tinta-terang); }
+  .btn-outline { background: var(--kertas); color: var(--tinta); box-shadow: inset 0 0 0 1.5px var(--tinta); }
+  .btn-ghost { background: none; color: var(--tinta); padding: 0 14px; }
+  .btn-block { width: 100%; }
+  .grow { flex: 1; }
+  .stack { display: grid; gap: 12px; margin-top: 28px; }
+
+  /* ---------- Opsi jawaban ---------- */
+  .options { list-style: none; display: grid; gap: 10px; margin-top: 20px; }
+  .option {
+    display: flex; align-items: center; gap: 14px; min-height: 58px; padding: 12px 14px;
+    border-radius: 14px; box-shadow: inset 0 0 0 1px var(--bingkai); font-weight: 500; cursor: pointer;
+  }
+  .option .key {
+    flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 13px; font-weight: 700; color: var(--tinta); box-shadow: inset 0 0 0 1px var(--garis);
+  }
+  .option .tick { margin-left: auto; color: var(--tinta); display: none; }
+  .option[aria-checked="true"] { background: var(--kabut); box-shadow: inset 0 0 0 2px var(--tinta); }
+  .option[aria-checked="true"] .key { background: var(--tinta); color: #fff; box-shadow: none; }
+  .option[aria-checked="true"] .tick { display: block; }
+
+  /* ---------- Pilihan lobby ---------- */
+  fieldset { border: 0; margin-top: 22px; }
+  legend { font-size: 14px; font-weight: 600; color: var(--tinta-pudar); margin-bottom: 8px; }
+  .choices { display: grid; gap: 8px; }
+  .choice {
+    display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px;
+    border-radius: 14px; box-shadow: inset 0 0 0 1px var(--bingkai); cursor: pointer;
+  }
+  .choice .ic { flex: none; color: var(--tinta); margin-top: 1px; }
+  .choice strong { display: block; font-weight: 600; font-size: 15px; }
+  .choice span { display: block; font-size: 13px; color: var(--tinta-pudar); line-height: 1.4; margin-top: 1px; }
+  .choice[aria-checked="true"] { background: var(--kabut); box-shadow: inset 0 0 0 2px var(--tinta); }
+
+  .segmented { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 999px; background: var(--kabut); }
+  .segmented button {
+    height: 40px; border: 0; border-radius: 999px; background: none; cursor: pointer;
+    font-weight: 600; font-size: 14px; color: var(--tinta-pudar);
+    padding: 0 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .segmented button[aria-checked="true"] { background: var(--kertas); color: var(--tinta); box-shadow: inset 0 0 0 1.5px var(--tinta); }
+
+  /* ---------- Daftar ---------- */
+  .list { list-style: none; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--garis); }
+  .row:last-child { border-bottom: 1px solid var(--garis); }
+  .row-title { font-weight: 600; }
+  .row-sub { font-size: 14px; color: var(--tinta-pudar); }
+  .row-num { font-family: var(--serif); font-size: 24px; font-weight: 500; font-variant-numeric: lining-nums tabular-nums; }
+  .recent { margin-top: 36px; }
+
+  /* ---------- Hasil ---------- */
+  .result-head { margin-top: 18px; }
+  .pair { font-size: 14px; color: var(--tinta-pudar); }
+  .pct {
+    font-family: var(--serif); font-weight: 500; font-size: 72px; line-height: 1;
+    letter-spacing: -0.03em; color: var(--tinta); margin-top: 6px; font-variant-numeric: lining-nums;
+  }
+  .result-head .title { margin-top: 6px; }
+  .answers { list-style: none; margin-top: 4px; }
+  .answer {
+    display: grid; grid-template-columns: 18px 1fr auto; gap: 2px 10px;
+    padding: 14px 0; border-top: 1px solid var(--garis);
+  }
+  .answer .n { font-size: 13px; color: var(--tinta-pudar); font-variant-numeric: tabular-nums; padding-top: 2px; }
+  .answer .q { font-family: var(--serif); font-size: 16px; line-height: 1.4; }
+  .answer .a { grid-column: 2 / 4; font-size: 14px; color: var(--tinta-pudar); }
+  .answer .status { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; padding-top: 2px; }
+  .status.cocok { color: var(--tinta); }
+  .status.beda { color: var(--tinta-pudar); }
+  .result-section { margin-top: 24px; }
+
+  /* ---------- Momen hasil terbuka (satu-satunya animasi otomatis) ---------- */
+  .knot { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .knot-ends { opacity: 0; }
+  .reveal-after { opacity: 0; }
+  .play .knot { animation: draw 1.6s cubic-bezier(.65, 0, .25, 1) .2s forwards; }
+  .play .knot-ends { animation: show .3s ease-out forwards; }
+  .play .reveal-after { animation: show .45s ease-out 1.7s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes show { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .play .knot, .play .knot-ends, .play .reveal-after { animation: none; }
+    .knot { stroke-dashoffset: 0; }
+    .knot-ends, .reveal-after { opacity: 1; }
+  }
+
+  /* ---------- Token ---------- */
+  .tokens { margin-top: 64px; display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .tokens h2 { font-size: 14px; font-weight: 600; color: var(--tinta-pudar); margin-bottom: 12px; }
+  .swatches { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .swatch { font-size: 13px; color: var(--tinta-pudar); }
+  .swatch i { display: block; height: 56px; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--garis); margin-bottom: 8px; }
+  .swatch b { display: block; color: var(--tinta); font-size: 14px; }
+  .specimen p { max-width: 52ch; }
+  .specimen .s1 { font-family: var(--serif); font-size: 28px; line-height: 1.2; font-weight: 500; }
+  .specimen .s2 { margin-top: 10px; color: var(--tinta-pudar); }
+</style>
+</head>
+<body>
+
+<header class="intro">
+  <h1>Kuis Pasangan</h1>
+  <p>Pratinjau arah visual: kertas putih, tinta Deep Navy, dan seutas benang Old Rose yang menghubungkan dua HP. Benang ikut bergerak saat kalian menjawab, dan baru membentuk simpul ketika hasil dibuka. Di aplikasi, nama selalu berasal dari isian pemain. Ketik nama di bawah untuk melihat tampilannya di setiap layar.</p>
+  <div class="names">
+    <label class="field"><span>Nama pemain 1 (Host)</span><input id="n1" maxlength="20" placeholder="Pemain 1" autocomplete="off"></label>
+    <label class="field"><span>Nama pemain 2 (Tamu)</span><input id="n2" maxlength="20" placeholder="Pemain 2" autocomplete="off"></label>
+  </div>
+  <button class="btn btn-outline replay" type="button" id="replay">
+    <i data-lucide="rotate-ccw"></i> Putar ulang momen hasil
+  </button>
+</header>
+
+<main class="board">
+
+  <!-- ==================== BERANDA ==================== -->
+  <figure class="frame">
+    <div class="screen">
+      <div class="screen-body">
+        <svg class="thread" viewBox="0 0 320 92" aria-hidden="true">
+          <path d="M18 30 Q160 104 302 30" fill="none" stroke="var(--mawar)" stroke-width="2" stroke-linecap="round" stroke-dasharray="0.5 9"/>
+          <circle cx="18" cy="30" r="10" fill="var(--tinta)"/>
+          <circle cx="302" cy="30" r="9" fill="var(--kertas)" stroke="var(--bingkai)" stroke-width="2"/>
+          <text class="thread-label" x="4" y="62">Kamu</text>
+          <text class="thread-label" x="316" y="62" text-anchor="end">Dia</text>
+        </svg>
+
+        <h1 class="display" style="margin-top:20px">Seberapa kenal kamu sama dia?</h1>
+        <p class="lede">Main dari HP masing-masing. Setiap jawaban dibuka bersamaan begitu kalian berdua selesai memilih.</p>
+
+        <div class="stack">
+          <button class="btn btn-primary btn-block" type="button">Buat room</button>
+          <button class="btn btn-outline btn-block" type="button">Gabung pakai kode</button>
+        </div>
+
+        <section class="recent">
+          <h2 class="group-label">Terakhir main</h2>
+          <ul class="list">
+            <li class="row">
+              <div><p class="row-title"><span data-name="2">Pemain 2</span></p><p class="row-sub">Santai, mode Tebak Aku</p></div>
+              <span class="row-num">80%</span>
+            </li>
+            <li class="row">
+              <div><p class="row-title"><span data-name="2">Pemain 2</span></p><p class="row-sub">Deep Talk, mode Kita Mirip?</p></div>
+              <span class="row-num">60%</span>
+            </li>
+          </ul>
+        </section>
+
+        <p class="fineprint">Yang disimpan cuma nama panggilan dan jawaban. Room kedaluwarsa setelah 24 jam.</p>
+      </div>
+    </div>
+    <figcaption>Beranda. Benang putus-putus: pasangan belum terhubung.</figcaption>
+  </figure>
+
+  <!-- ==================== LOBBY ==================== -->
+  <figure class="frame">
+    <div class="screen">
+      <div class="screen-body">
+        <div class="topbar">
+          <button class="text-btn" type="button">Keluar</button>
+          <button class="code-chip" type="button" aria-label="Salin kode room K 7 M 2 Q X">K7M2QX <i data-lucide="copy"></i></button>
+        </div>
+
+        <svg class="thread" viewBox="0 0 320 64" aria-hidden="true">
+          <path d="M16 30 Q160 46 304 30" fill="none" stroke="var(--mawar)" stroke-width="1.75" stroke-linecap="round"/>
+          <circle cx="16" cy="30" r="15" fill="var(--tinta)"/>
+          <text class="avatar-text" x="16" y="30" text-anchor="middle" dominant-baseline="central" data-initial="1">1</text>
+          <circle cx="304" cy="30" r="15" fill="var(--tinta)"/>
+          <text class="avatar-text" x="304" y="30" text-anchor="middle" dominant-baseline="central" data-initial="2">2</text>
+        </svg>
+        <div class="thread-names">
+          <span><b><span data-name="1">Pemain 1</span></b>kamu</span>
+          <span><b><span data-name="2">Pemain 2</span></b>tersambung</span>
+        </div>
+
+        <h1 class="title" style="margin-top:20px"><span data-name="2">Pemain 2</span> sudah masuk.</h1>
+        <p class="lede" style="margin-top:6px">Pilih kuisnya, lalu mulai bareng.</p>
+
+        <fieldset>
+          <legend>Kategori</legend>
+          <div class="choices" role="radiogroup">
+            <div class="choice" role="radio" aria-checked="true" tabindex="0">
+              <i class="ic" data-lucide="popcorn"></i>
+              <div><strong>Santai</strong><span>Pemanasan ringan buat ketawa bareng.</span></div>
+            </div>
+            <div class="choice" role="radio" aria-checked="false" tabindex="-1">
+              <i class="ic" data-lucide="message-circle-heart"></i>
+              <div><strong>Deep Talk</strong><span>Pelan-pelan, soal perasaan dan masa depan.</span></div>
+            </div>
+            <div class="choice" role="radio" aria-checked="false" tabindex="-1">
+              <i class="ic" data-lucide="coffee"></i>
+              <div><strong>Kebiasaan sehari-hari</strong><span>Hal kecil yang cuma pasangan yang tahu.</span></div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Mode</legend>
+          <div class="segmented" role="radiogroup">
+            <button type="button" role="radio" aria-checked="true">Tebak Aku</button>
+            <button type="button" role="radio" aria-checked="false">Kita Mirip?</button>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Yang ditebak</legend>
+          <div class="segmented" role="radiogroup">
+            <button type="button" role="radio" aria-checked="true"><span data-name="1">Pemain 1</span></button>
+            <button type="button" role="radio" aria-checked="false"><span data-name="2">Pemain 2</span></button>
+          </div>
+        </fieldset>
+      </div>
+      <div class="action-bar">
+        <button class="btn btn-primary btn-block" type="button">Mulai kuis</button>
+      </div>
+    </div>
+    <figcaption>Lobby (Host). Benang tersambung begitu pasangan masuk.</figcaption>
+  </figure>
+
+  <!-- ==================== KUIS ==================== -->
+  <figure class="frame">
+    <div class="screen">
+      <div class="screen-body">
+        <div class="topbar">
+          <button class="icon-btn" type="button" aria-label="Keluar dari kuis"><i data-lucide="x"></i></button>
+          <span class="topbar-title">Soal 4 dari 10</span>
+        </div>
+
+        <!-- Kamu (Tamu) sudah menjawab 3, Host 6. Titik bergerak dari ujung ke tengah. -->
+        <svg class="thread" viewBox="0 0 320 52" aria-hidden="true">
+          <path d="M16 22 Q160 34 304 22" fill="none" stroke="var(--mawar)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="1 7"/>
+          <path d="M16 22 Q160 34 304 22" fill="none" stroke="var(--mawar)" stroke-width="2" stroke-linecap="butt" pathLength="1" stroke-dasharray="0.15 0.55 0.30"/>
+          <circle cx="59.2" cy="23.5" r="6" fill="var(--tinta)"/>
+          <circle cx="217.6" cy="24.5" r="6" fill="var(--tinta)"/>
+        </svg>
+        <div class="thread-names"><span>Kamu 3/10</span><span><span data-name="1">Pemain 1</span> 6/10</span></div>
+
+        <p class="hint">Tebak jawaban <span data-name="1">Pemain 1</span></p>
+        <h1 class="question">Kalau lagi bete, <span data-name="1">Pemain 1</span> biasanya…</h1>
+
+        <div class="options" role="radiogroup" aria-label="Pilihan jawaban">
+          <div class="option" role="radio" aria-checked="false" tabindex="-1"><span class="key">A</span>Dengerin musik sambil tiduran</div>
+          <div class="option" role="radio" aria-checked="true" tabindex="0"><span class="key">B</span>Ngemil yang manis-manis<i class="tick" data-lucide="check"></i></div>
+          <div class="option" role="radio" aria-checked="false" tabindex="-1"><span class="key">C</span>Tidur lebih cepat</div>
+          <div class="option" role="radio" aria-checked="false" tabindex="-1"><span class="key">D</span>Cerita panjang ke kamu</div>
+        </div>
+      </div>
+      <div class="action-bar">
+        <button class="btn btn-ghost" type="button">Kembali</button>
+        <button class="btn btn-primary grow" type="button">Lanjut</button>
+      </div>
+    </div>
+    <figcaption>Kuis. Setiap jawaban mendekatkan titik kalian ke tengah.</figcaption>
+  </figure>
+
+  <!-- ==================== HASIL ==================== -->
+  <figure class="frame">
+    <div class="screen" id="result">
+      <div class="screen-body">
+        <svg class="thread" viewBox="0 0 320 76" aria-hidden="true">
+          <path class="knot" pathLength="1" fill="none" stroke="var(--mawar)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+            d="M16 58 L160 58 C148 49 136 40 136 30 C136 21 143 15 150 15 C155 15 158 18 160 22 C162 18 165 15 170 15 C177 15 184 21 184 30 C184 40 172 49 160 58 L304 58"/>
+          <g class="knot-ends">
+            <circle cx="16" cy="58" r="15" fill="var(--tinta)"/>
+            <text class="avatar-text" x="16" y="58" text-anchor="middle" dominant-baseline="central" data-initial="1">1</text>
+            <circle cx="304" cy="58" r="15" fill="var(--tinta)"/>
+            <text class="avatar-text" x="304" y="58" text-anchor="middle" dominant-baseline="central" data-initial="2">2</text>
+          </g>
+        </svg>
+
+        <div class="result-head reveal-after">
+          <p class="pair"><span data-name="1">Pemain 1</span> dan <span data-name="2">Pemain 2</span>, ronde 1</p>
+          <p class="pct">80%</p>
+          <h1 class="title">Partner sejati</h1>
+          <p class="lede">Cocok di 8 dari 10 jawaban. Kalian hafal kebiasaan kecil satu sama lain, termasuk yang jarang diomongin.</p>
+        </div>
+
+        <section class="result-section reveal-after">
+          <h2 class="group-label">Jawaban kalian</h2>
+          <ol class="answers">
+            <li class="answer">
+              <span class="n">1</span>
+              <p class="q">Kalau lagi bete, <span data-name="1">Pemain 1</span> biasanya…</p>
+              <span class="status cocok"><i data-lucide="circle-check"></i>Cocok</span>
+              <p class="a">Jawaban <span data-name="1">Pemain 1</span> dan tebakan <span data-name="2">Pemain 2</span>: ngemil yang manis-manis</p>
+            </li>
+            <li class="answer">
+              <span class="n">2</span>
+              <p class="q">Lagu yang paling sering <span data-name="1">Pemain 1</span> putar belakangan ini?</p>
+              <span class="status beda"><i data-lucide="circle-dashed"></i>Beda</span>
+              <p class="a"><span data-name="1">Pemain 1</span>: lagu lama yang bikin nostalgia. Tebakan <span data-name="2">Pemain 2</span>: lagu yang lagi viral.</p>
+            </li>
+          </ol>
+        </section>
+      </div>
+      <div class="action-bar">
+        <button class="btn btn-outline grow" type="button">Bagikan hasil</button>
+        <button class="btn btn-primary grow" type="button">Main lagi</button>
+      </div>
+    </div>
+    <figcaption>Hasil. Satu-satunya animasi otomatis: benang membentuk simpul hati.</figcaption>
+  </figure>
+
+</main>
+
+<section class="tokens">
+  <div>
+    <h2>Palet</h2>
+    <ul class="swatches">
+      <li class="swatch"><i style="background:#FFFFFF"></i><b>Kertas</b>#FFFFFF, latar</li>
+      <li class="swatch"><i style="background:#0B2545"></i><b>Deep Navy</b>#0B2545, teks dan aksi</li>
+      <li class="swatch"><i style="background:#E19AA6"></i><b>Old Rose</b>#E19AA6, benang dan kecocokan</li>
+      <li class="swatch"><i style="background:#4F6279"></i><b>Tinta pudar</b>#4F6279, teks kedua</li>
+      <li class="swatch"><i style="background:#F0F2F4"></i><b>Kabut</b>#F0F2F4, pilihan aktif</li>
+      <li class="swatch"><i style="background:#F9EBED"></i><b>Mawar muda</b>#F9EBED, jawaban cocok</li>
+    </ul>
+  </div>
+  <div class="specimen">
+    <h2>Huruf</h2>
+    <p class="s1">Literata untuk suara surat: judul, soal, dan angka hasil.</p>
+    <p class="s2">Plus Jakarta Sans untuk antarmuka: tombol, pilihan jawaban, label, dan status. Dibuat oleh foundry Indonesia, nyaman dibaca di layar kecil.</p>
+  </div>
+</section>
+
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+  if (window.lucide) {
+    lucide.createIcons({ attrs: { width: 20, height: 20, 'stroke-width': 1.75 } });
+  }
+  const inputs = { 1: document.getElementById('n1'), 2: document.getElementById('n2') };
+  const params = new URLSearchParams(location.search);
+  const clean = (s) => s.trim().replace(/\s+/g, ' ');
+  for (const k of [1, 2]) inputs[k].value = (params.get('n' + k) || '').slice(0, 20);
+  const applyNames = () => {
+    for (const k of [1, 2]) {
+      const name = clean(inputs[k].value);
+      document.querySelectorAll('[data-name="' + k + '"]').forEach((el) => { el.textContent = name || 'Pemain ' + k; });
+      document.querySelectorAll('[data-initial="' + k + '"]').forEach((el) => {
+        el.textContent = name ? Array.from(name)[0].toUpperCase() : String(k);
+      });
+    }
+  };
+  inputs[1].addEventListener('input', applyNames);
+  inputs[2].addEventListener('input', applyNames);
+  applyNames();
+
+  const result = document.getElementById('result');
+  const play = () => {
+    result.classList.remove('play');
+    void result.offsetWidth;
+    result.classList.add('play');
+  };
+  document.getElementById('replay').addEventListener('click', play);
+  play();
+</script>
+</body>
+</html>

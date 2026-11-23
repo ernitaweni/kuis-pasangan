@@ -1,0 +1,326 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "santai",
+      "name": "Santai",
+      "description": "Pemanasan ringan buat ketawa bareng.",
+      "questions": [
+        {
+          "id": "santai-01",
+          "text": "Kalau weekend tanpa rencana, {subjek} paling pengin…",
+          "options": [
+            { "id": "a", "text": "Rebahan maraton series" },
+            { "id": "b", "text": "Jalan-jalan cari kuliner" },
+            { "id": "c", "text": "Olahraga atau main di luar" },
+            { "id": "d", "text": "Beres-beres dan nyicil kerjaan" }
+          ]
+        },
+        {
+          "id": "santai-02",
+          "text": "Makanan yang paling bikin {subjek} happy setelah hari yang capek?",
+          "options": [
+            { "id": "a", "text": "Mi instan pakai telur" },
+            { "id": "b", "text": "Martabak manis" },
+            { "id": "c", "text": "Bakso atau mi ayam" },
+            { "id": "d", "text": "Yang pedas-pedas, kayak seblak" }
+          ]
+        },
+        {
+          "id": "santai-03",
+          "text": "Dapat liburan gratis seminggu, {subjek} pilih ke…",
+          "options": [
+            { "id": "a", "text": "Pantai yang sepi" },
+            { "id": "b", "text": "Gunung yang sejuk" },
+            { "id": "c", "text": "Kota besar yang ramai" },
+            { "id": "d", "text": "Luar negeri, cari pengalaman baru" }
+          ]
+        },
+        {
+          "id": "santai-04",
+          "text": "Genre film yang paling sering {subjek} pilih?",
+          "options": [
+            { "id": "a", "text": "Komedi" },
+            { "id": "b", "text": "Horor atau thriller" },
+            { "id": "c", "text": "Romantis atau drama" },
+            { "id": "d", "text": "Action atau fiksi ilmiah" }
+          ]
+        },
+        {
+          "id": "santai-05",
+          "text": "Lagu yang paling sering {subjek} putar belakangan ini?",
+          "options": [
+            { "id": "a", "text": "Lagu galau buat merenung" },
+            { "id": "b", "text": "Lagu lama yang bikin nostalgia" },
+            { "id": "c", "text": "Lagu yang lagi viral" },
+            { "id": "d", "text": "Musik tanpa lirik buat fokus" }
+          ]
+        },
+        {
+          "id": "santai-06",
+          "text": "Kalau jadi hewan, {subjek} paling cocok jadi…",
+          "options": [
+            { "id": "a", "text": "Kucing, manja tapi gengsian" },
+            { "id": "b", "text": "Anjing, setia dan gampang semangat" },
+            { "id": "c", "text": "Panda, hobinya makan dan tidur" },
+            { "id": "d", "text": "Burung hantu, makin malam makin melek" }
+          ]
+        },
+        {
+          "id": "santai-07",
+          "text": "Minuman favorit{milik} kalau lagi nongkrong?",
+          "options": [
+            { "id": "a", "text": "Kopi susu gula aren" },
+            { "id": "b", "text": "Teh manis dingin" },
+            { "id": "c", "text": "Boba atau minuman manis lain" },
+            { "id": "d", "text": "Air putih aja, cukup" }
+          ]
+        },
+        {
+          "id": "santai-08",
+          "text": "Di grup chat, {subjek} biasanya jadi…",
+          "options": [
+            { "id": "a", "text": "Yang paling rame kirim stiker" },
+            { "id": "b", "text": "Pembaca diam yang sesekali muncul" },
+            { "id": "c", "text": "Yang selalu ngingetin jadwal" },
+            { "id": "d", "text": "Yang balasnya telat tapi panjang" }
+          ]
+        },
+        {
+          "id": "santai-09",
+          "text": "Tiba-tiba dapat rezeki satu juta, {subjek} bakal…",
+          "options": [
+            { "id": "a", "text": "Langsung ditabung" },
+            { "id": "b", "text": "Traktir orang-orang terdekat" },
+            { "id": "c", "text": "Beli barang yang udah lama diincar" },
+            { "id": "d", "text": "Dipakai buat jalan-jalan" }
+          ]
+        },
+        {
+          "id": "santai-10",
+          "text": "Kekuatan super yang paling {subjek} pengin punya?",
+          "options": [
+            { "id": "a", "text": "Teleportasi, biar bisa langsung ketemu pasangan" },
+            { "id": "b", "text": "Membaca pikiran" },
+            { "id": "c", "text": "Menghentikan waktu" },
+            { "id": "d", "text": "Nggak butuh tidur sama sekali" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deep-talk",
+      "name": "Deep Talk",
+      "description": "Pelan-pelan, soal perasaan dan masa depan.",
+      "questions": [
+        {
+          "id": "deep-talk-01",
+          "text": "Cara paling ampuh bikin {subjek} merasa disayang?",
+          "options": [
+            { "id": "a", "text": "Dikasih kata-kata manis dan pujian" },
+            { "id": "b", "text": "Ditemani dengan perhatian penuh" },
+            { "id": "c", "text": "Dibantu tanpa perlu minta" },
+            { "id": "d", "text": "Dapat hadiah kecil yang tak terduga" }
+          ]
+        },
+        {
+          "id": "deep-talk-02",
+          "text": "Kalau lagi sedih, {subjek} paling butuh…",
+          "options": [
+            { "id": "a", "text": "Didengerin tanpa langsung dikasih saran" },
+            { "id": "b", "text": "Dibantu cari jalan keluar" },
+            { "id": "c", "text": "Dihibur sampai bisa ketawa lagi" },
+            { "id": "d", "text": "Dikasih ruang buat sendiri dulu" }
+          ]
+        },
+        {
+          "id": "deep-talk-03",
+          "text": "Hal yang paling {subjek} kangenin saat jauh dari pasangan?",
+          "options": [
+            { "id": "a", "text": "Ngobrol langsung tanpa sinyal putus-putus" },
+            { "id": "b", "text": "Makan bareng di satu meja" },
+            { "id": "c", "text": "Jalan berdua tanpa tujuan" },
+            { "id": "d", "text": "Sekadar duduk diam di sebelahnya" }
+          ]
+        },
+        {
+          "id": "deep-talk-04",
+          "text": "Lima tahun lagi, mimpi yang paling ingin {subjek} wujudkan…",
+          "options": [
+            { "id": "a", "text": "Karier atau usaha yang mapan" },
+            { "id": "b", "text": "Tinggal satu kota dengan pasangan" },
+            { "id": "c", "text": "Keliling ke banyak tempat baru" },
+            { "id": "d", "text": "Hidup tenang, sehat, dan jauh dari drama" }
+          ]
+        },
+        {
+          "id": "deep-talk-05",
+          "text": "Saat ada salah paham, {subjek} biasanya…",
+          "options": [
+            { "id": "a", "text": "Pengin langsung dibahas sampai beres" },
+            { "id": "b", "text": "Butuh waktu tenang dulu, baru ngobrol" },
+            { "id": "c", "text": "Diam dulu, berharap pasangan peka" },
+            { "id": "d", "text": "Mencairkan suasana pakai bercanda" }
+          ]
+        },
+        {
+          "id": "deep-talk-06",
+          "text": "Momen yang bikin {subjek} merasa paling dekat walau jauh?",
+          "options": [
+            { "id": "a", "text": "Video call sampai ketiduran" },
+            { "id": "b", "text": "Dapat pesan suara yang tiba-tiba" },
+            { "id": "c", "text": "Nonton film bareng dari tempat masing-masing" },
+            { "id": "d", "text": "Ngobrol serius soal masa depan" }
+          ]
+        },
+        {
+          "id": "deep-talk-07",
+          "text": "Hal kecil yang paling bikin {subjek} merasa dihargai?",
+          "options": [
+            { "id": "a", "text": "Detail kecil yang pernah diceritakan ternyata diingat" },
+            { "id": "b", "text": "Dikabari tanpa harus diminta" },
+            { "id": "c", "text": "Usahanya diapresiasi, bukan cuma hasilnya" },
+            { "id": "d", "text": "Dibela saat ada di depan orang lain" }
+          ]
+        },
+        {
+          "id": "deep-talk-08",
+          "text": "Soal jarak, hal yang paling bikin {subjek} khawatir…",
+          "options": [
+            { "id": "a", "text": "Pelan-pelan jadi jarang ngobrol" },
+            { "id": "b", "text": "Salah paham gara-gara chat" },
+            { "id": "c", "text": "Nggak bisa ada di samping saat dibutuhkan" },
+            { "id": "d", "text": "Terlalu lama belum bisa ketemu" }
+          ]
+        },
+        {
+          "id": "deep-talk-09",
+          "text": "Kalau bisa mengulang satu momen bareng pasangan, {subjek} pilih…",
+          "options": [
+            { "id": "a", "text": "Pertama kali ngobrol" },
+            { "id": "b", "text": "Pertama kali ketemu langsung" },
+            { "id": "c", "text": "Ketawa bareng sampai sakit perut" },
+            { "id": "d", "text": "Saling menguatkan waktu keadaan lagi berat" }
+          ]
+        },
+        {
+          "id": "deep-talk-10",
+          "text": "Kunci hubungan yang awet, versi{milik}?",
+          "options": [
+            { "id": "a", "text": "Komunikasi yang jujur" },
+            { "id": "b", "text": "Saling percaya" },
+            { "id": "c", "text": "Tetap bisa jadi teman dan bercanda" },
+            { "id": "d", "text": "Tumbuh bareng ke arah yang sama" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kebiasaan",
+      "name": "Kebiasaan sehari-hari",
+      "description": "Hal kecil yang cuma pasangan yang tahu.",
+      "questions": [
+        {
+          "id": "kebiasaan-01",
+          "text": "Hal pertama yang {subjek} lakukan setelah bangun tidur?",
+          "options": [
+            { "id": "a", "text": "Langsung cek HP" },
+            { "id": "b", "text": "Minum segelas air" },
+            { "id": "c", "text": "Tidur lagi “lima menit”" },
+            { "id": "d", "text": "Langsung mandi biar segar" }
+          ]
+        },
+        {
+          "id": "kebiasaan-02",
+          "text": "Jam tidur{milik} biasanya…",
+          "options": [
+            { "id": "a", "text": "Sebelum jam sepuluh malam" },
+            { "id": "b", "text": "Sekitar jam sebelas sampai dua belas" },
+            { "id": "c", "text": "Lewat tengah malam" },
+            { "id": "d", "text": "Nggak tentu, tergantung hari" }
+          ]
+        },
+        {
+          "id": "kebiasaan-03",
+          "text": "Kalau chat, gaya{milik} biasanya…",
+          "options": [
+            { "id": "a", "text": "Satu pesan panjang sekaligus" },
+            { "id": "b", "text": "Banyak pesan pendek beruntun" },
+            { "id": "c", "text": "Pesan suara" },
+            { "id": "d", "text": "Stiker dan meme" }
+          ]
+        },
+        {
+          "id": "kebiasaan-04",
+          "text": "Baterai HP {subjek} paling sering…",
+          "options": [
+            { "id": "a", "text": "Selalu di atas 50%" },
+            { "id": "b", "text": "Tinggal belasan persen" },
+            { "id": "c", "text": "Nempel terus di charger" },
+            { "id": "d", "text": "Aman, ada power bank" }
+          ]
+        },
+        {
+          "id": "kebiasaan-05",
+          "text": "Saat makan di luar, {subjek} biasanya…",
+          "options": [
+            { "id": "a", "text": "Pesan menu andalan yang itu-itu aja" },
+            { "id": "b", "text": "Selalu coba menu baru" },
+            { "id": "c", "text": "Lama mikir, akhirnya ikut pesanan orang" },
+            { "id": "d", "text": "Cek ulasan dulu sebelum pesan" }
+          ]
+        },
+        {
+          "id": "kebiasaan-06",
+          "text": "Punya waktu luang lima belas menit, {subjek} paling mungkin…",
+          "options": [
+            { "id": "a", "text": "Scroll media sosial" },
+            { "id": "b", "text": "Main game di HP" },
+            { "id": "c", "text": "Ngechat atau telepon pasangan" },
+            { "id": "d", "text": "Tidur sebentar" }
+          ]
+        },
+        {
+          "id": "kebiasaan-07",
+          "text": "Cara{milik} menghadapi tumpukan kerjaan atau tugas?",
+          "options": [
+            { "id": "a", "text": "Dicicil dari jauh hari" },
+            { "id": "b", "text": "Dikebut mepet tenggat, tapi beres" },
+            { "id": "c", "text": "Bikin daftar dulu, baru mulai" },
+            { "id": "d", "text": "Rebahan dulu, mikirnya nanti" }
+          ]
+        },
+        {
+          "id": "kebiasaan-08",
+          "text": "Kamar{milik} biasanya…",
+          "options": [
+            { "id": "a", "text": "Rapi dan wangi" },
+            { "id": "b", "text": "Berantakan, tapi tahu letak semua barang" },
+            { "id": "c", "text": "Rapi kalau mau ada tamu aja" },
+            { "id": "d", "text": "Penuh barang yang “nanti juga kepakai”" }
+          ]
+        },
+        {
+          "id": "kebiasaan-09",
+          "text": "Di perjalanan, {subjek} biasanya…",
+          "options": [
+            { "id": "a", "text": "Pakai earphone dan dengar musik" },
+            { "id": "b", "text": "Tidur" },
+            { "id": "c", "text": "Melihat-lihat pemandangan" },
+            { "id": "d", "text": "Ngechat atau teleponan" }
+          ]
+        },
+        {
+          "id": "kebiasaan-10",
+          "text": "Kebiasaan{milik} sebelum tidur?",
+          "options": [
+            { "id": "a", "text": "Scroll HP sampai ketiduran" },
+            { "id": "b", "text": "Telepon pasangan dulu" },
+            { "id": "c", "text": "Nonton satu episode (yang jadi tiga)" },
+            { "id": "d", "text": "Baca buku atau dengar podcast" }
+          ]
+        }
+      ]
+    }
+  ]
+}

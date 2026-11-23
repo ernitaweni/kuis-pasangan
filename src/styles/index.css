@@ -1,0 +1,264 @@
+@import 'tailwindcss';
+
+/*
+ * Token desain "surat biru dan seutas benang" (docs/02-system-design.md §6).
+ * Hanya tiga warna: putih (kertas), Deep Navy (tinta), Old Rose (mawar).
+ * Aturannya: navy untuk orang, teks, dan aksi; mawar untuk yang menghubungkan
+ * (benang, simpul hati, jawaban yang cocok). Warna lain hanyalah campuran navy atau
+ * mawar dengan putih, kecuali `bahaya` yang merupakan mawar yang diperdalam.
+ * Old Rose terlalu terang untuk teks (2,2:1), jadi tidak pernah dipakai sebagai warna teks.
+ * Semua pasangan teks lolos WCAG AA 4,5:1. Palet bawaan Tailwind dimatikan.
+ */
+@theme {
+  --color-*: initial;
+  /* Palet dasar */
+  --color-kertas: #ffffff;
+  --color-tinta: #0b2545;
+  --color-mawar: #e19aa6;
+  /* Navy dicampur putih */
+  --color-tinta-terang: #2d445f; /* 86%: hover tombol utama */
+  --color-tinta-pudar: #4f6279; /* 72%: teks kedua */
+  --color-bingkai: #8592a2; /* 50%: tepi input dan opsi (3,2:1) */
+  --color-garis: #dde0e5; /* 14%: garis pemisah */
+  --color-kabut: #f0f2f4; /* 6%: latar opsi terpilih */
+  /* Mawar dicampur putih / diperdalam */
+  --color-mawar-muda: #f9ebed; /* 20%: latar opsi yang cocok */
+  --color-bahaya: #a3354b; /* error dan aksi berbahaya */
+
+  --font-serif: 'Literata Variable', Georgia, 'Times New Roman', serif;
+  --font-sans:
+    'Plus Jakarta Sans Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /*
+   * Skala huruf, sama di semua lebar layar. Semua teks selain judul memakai satu ukuran
+   * (`teks`, 14px) dan dibedakan lewat ketebalan dan warna saja. Judul (serif) dan angka
+   * besar (skor, hitung mundur, kode room) punya ukuran sendiri.
+   */
+  --text-teks: 0.875rem;
+  --text-teks--line-height: 1.25rem;
+  --text-question: 1.5rem;
+  --text-question--line-height: 1.95rem;
+  --text-title: 1.75rem;
+  --text-title--line-height: 2.0625rem;
+  --text-display: 2.75rem;
+  --text-display--line-height: 2.875rem;
+  --text-score: 4.5rem;
+  --text-score--line-height: 4.5rem;
+
+  --radius-option: 14px;
+  --radius-dialog: 24px;
+
+  /*
+   * Sistem gerak "benang yang hidup" (docs/02-system-design.md §6.4). Semua gerak berpusat
+   * pada benang: terulur saat layar dibuka, berayun saat longgar, menegang saat tersambung,
+   * berdenyut saat ada jawaban, lalu terikat menjadi simpul hati di akhir.
+   */
+  --ease-thread: cubic-bezier(0.65, 0, 0.25, 1); /* benang ditarik: pelan, cepat, pelan */
+  --ease-lembut: cubic-bezier(0.22, 1, 0.36, 1); /* elemen masuk */
+  --ease-pegas: cubic-bezier(0.34, 1.56, 0.64, 1); /* sedikit memantul: penanda, centang */
+
+  /* Momen Hasil: benang membentuk simpul hati, simpul terisi, lalu hasil muncul. */
+  --animate-thread-draw: thread-draw 1.6s var(--ease-thread) 0.2s both;
+  --animate-knot-fill: knot-fill 0.7s var(--ease-pegas) 1.65s both;
+  --animate-reveal: reveal 0.45s ease-out 1.7s both;
+  /* Beranda: benang bersimpul longgar tergambar dari "Kamu" ke "Dia", lalu bernapas pelan. */
+  --animate-loop-draw: thread-draw 1.6s var(--ease-thread) 0.15s both;
+  --animate-breathe: breathe 5s ease-in-out 2s infinite alternate;
+  /* Benang terulur dari titikmu saat layar dibuka, lalu berayun pelan selama masih longgar. */
+  --animate-unroll: unroll 0.9s var(--ease-thread) 0.1s both;
+  --animate-sway: sway 3.6s ease-in-out 1s infinite alternate;
+  /* Kursi kosong di Lobby: lingkaran memancar selama menunggu pasangan masuk. */
+  --animate-ripple: ripple 2.4s var(--ease-lembut) 1s infinite;
+  --animate-ripple-once: ripple 0.8s var(--ease-lembut);
+  /* Titik di ujung kanan muncul begitu benang selesai terulur / tiba di ujungnya. */
+  --animate-pop-late: pop 0.4s var(--ease-pegas) 0.8s both;
+  --animate-arrive: pop 0.45s var(--ease-pegas) 1.6s both;
+  /* Respons atas aksi. */
+  --animate-pop: pop 0.4s var(--ease-pegas) both;
+  --animate-rise: rise 0.32s var(--ease-lembut) both;
+  --animate-meet: meet 0.42s var(--ease-pegas) both;
+  --animate-beat: beat 0.7s ease-out 0.2s both;
+  --animate-tick: thread-draw 1s linear both;
+  --animate-dialog: dialog-in 0.24s var(--ease-lembut) both;
+  --animate-fade: reveal 0.15s ease-out both;
+
+  @keyframes thread-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes reveal {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  /* Penanda pemain meluncur dari sisinya masing-masing (--meet-from), lalu bertemu. */
+  @keyframes meet {
+    from {
+      opacity: 0;
+      transform: translateX(var(--meet-from, 10px)) scale(0.6);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+  @keyframes unroll {
+    from {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    20% {
+      opacity: 1;
+    }
+    to {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+  }
+  /* Tanpa fill-mode: jika gerak dimatikan, benang kembali ke bentuk aslinya. */
+  @keyframes sway {
+    from {
+      transform: scaleY(1);
+    }
+    to {
+      transform: scaleY(0.62);
+    }
+  }
+  @keyframes breathe {
+    from {
+      transform: scaleY(1);
+    }
+    to {
+      transform: scaleY(0.9);
+    }
+  }
+  @keyframes ripple {
+    from {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(2.4);
+    }
+  }
+  @keyframes knot-fill {
+    from {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes beat {
+    0% {
+      transform: scale(0.6);
+    }
+    35% {
+      transform: scale(1.3);
+    }
+    60% {
+      transform: scale(0.95);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-kertas font-sans text-teks text-tinta antialiased;
+    font-variant-numeric: lining-nums;
+  }
+
+  /* Safari iOS memperbesar layar saat fokus ke input di bawah 16px, jadi khusus layar sentuh. */
+  @media (pointer: coarse) {
+    input,
+    textarea {
+      font-size: 1rem;
+    }
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-tinta);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-mawar-muda);
+  }
+
+  /* Disclosure: tinggi isinya ikut bergerak saat dibuka-tutup, di browser yang mendukung. */
+  @supports (interpolate-size: allow-keywords) {
+    :root {
+      interpolate-size: allow-keywords;
+    }
+    details::details-content {
+      height: 0;
+      overflow: clip;
+      transition:
+        height 0.3s var(--ease-lembut),
+        content-visibility 0.3s allow-discrete;
+    }
+    details[open]::details-content {
+      height: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0s !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

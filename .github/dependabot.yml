@@ -1,0 +1,21 @@
+# Pembaruan dependensi otomatis, sebulan sekali. Setiap pull request dari Dependabot ikut
+# diuji CI. Merge hanya jika CI hijau.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    groups:
+      produksi:
+        dependency-type: production
+        update-types: [minor, patch]
+      pengembangan:
+        dependency-type: development
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
