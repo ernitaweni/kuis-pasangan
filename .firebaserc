@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "demo-kuis-pasangan"
+    "default": "demo-kuis-pasangan",
+    "prod": "kuis-pasangan"
   }
 }
