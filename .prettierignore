@@ -1,0 +1,6 @@
+dist
+coverage
+.firebase
+package-lock.json
+# Dokumen ditulis manual (tabel & diagram Mermaid), jangan diformat ulang.
+docs

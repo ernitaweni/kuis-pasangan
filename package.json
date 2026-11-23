@@ -1,0 +1,67 @@
+{
+  "name": "kuis-pasangan",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Kuis real-time untuk pasangan LDR, dimainkan dari HP masing-masing.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "dev:lan": "vite --host",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "test:integration": "firebase emulators:exec --only auth,database --project demo-kuis-pasangan \"vitest run --config vitest.integration.config.ts\"",
+    "test:integration:attach": "vitest run --config vitest.integration.config.ts",
+    "audit:prod": "npm audit --omit=dev",
+    "emulators": "firebase emulators:start --only auth,database --project demo-kuis-pasangan",
+    "emulators:lan": "firebase emulators:start --only auth,database --project demo-kuis-pasangan --config firebase.lan.json",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test"
+  },
+  "dependencies": {
+    "@fontsource-variable/literata": "^5.3.0",
+    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.5",
+    "firebase": "^13.4.0",
+    "lucide-react": "^1.77.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwindcss": "^4.3.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vitest/coverage-v8": "^5.1.1",
+    "eslint": "^10.14.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y-x": "^0.2.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "firebase-tools": "^15.37.0",
+    "globals": "^17.13.0",
+    "prettier": "^3.10.1",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.1"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "^1.14.7",
+    "eslint-plugin-jsx-a11y-x": {
+      "minimatch": "^11.0.9"
+    }
+  }
+}
