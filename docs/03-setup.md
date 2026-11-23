@@ -24,7 +24,7 @@
 | Format | `prettier`, `prettier-plugin-tailwindcss`, `eslint-config-prettier` | 3.10, 0.8, 10.1 |
 | Test | `vitest`, `@vitest/coverage-v8` | 5.1 |
 | Firebase CLI & Emulator | `firebase-tools` (devDependency) | 15.37 |
-| Runtime | Node.js ≥ 22.12, Java 21 (khusus emulator) | — |
+| Runtime | Node.js 24 (npm 11), Java 21 (khusus emulator) | — |
 
 ---
 

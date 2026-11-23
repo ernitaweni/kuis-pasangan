@@ -16,7 +16,7 @@ Kuis real-time untuk pasangan LDR. Masing-masing main dari HP sendiri, menjawab 
 
 ## Menjalankan secara lokal
 
-Butuh Node.js ≥ 22.12 dan Java 21 (untuk Firebase Emulator).
+Butuh Node.js 24 dan Java 21 (untuk Firebase Emulator).
 
 ```bash
 npm install

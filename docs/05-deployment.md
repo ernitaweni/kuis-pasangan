@@ -132,7 +132,7 @@ Jika nanti muncul error `auth/requests-from-referer-...-are-blocked`, berarti do
 
 Penting:
 - **Variabel `VITE_*` ditanam saat build.** Setelah mengubah Environment Variables, buka **Deployments → ⋯ → Redeploy**.
-- **Node.js:** proyek butuh Node ≥ 22.12 (`engines` di `package.json`). Jika build gagal karena versi Node, buka **Settings → Build and Deployment → Node.js Version** dan pilih 22.x atau yang lebih baru.
+- **Node.js:** proyek butuh **Node 24** (`engines` di `package.json`), sama dengan laptop pengembang dan CI. Vercel membaca `engines` dan otomatis memakai 24.x. Jika build gagal karena versi Node, buka **Settings → Build and Deployment → Node.js Version** dan pilih **24.x**. Node 22 (npm 10) menolak lockfile buatan npm 11.
 
 ---
 

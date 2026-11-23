@@ -5,7 +5,7 @@
   "description": "Kuis real-time untuk pasangan LDR, dimainkan dari HP masing-masing.",
   "type": "module",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=24"
   },
   "scripts": {
     "dev": "vite",
