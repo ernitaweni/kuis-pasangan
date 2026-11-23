@@ -1,0 +1,12 @@
+# Statistik "Languages" di GitHub (Linguist).
+# Secara bawaan, GitHub hanya menghitung kode program, mengabaikan folder docs/, dan tidak
+# menampilkan JSON, YAML, atau Markdown. Aturan di bawah menampilkan semua bahasa yang
+# dipakai proyek ini. React tidak bisa muncul di sini karena ia library, bukan bahasa:
+# komponennya ditulis dalam file .tsx dan dihitung sebagai TypeScript.
+docs/** linguist-documentation=false
+*.json linguist-detectable=true
+*.yml linguist-detectable=true
+*.md linguist-detectable=true
+
+# Tetap disembunyikan: dibuat otomatis oleh npm, bukan ditulis tangan.
+package-lock.json linguist-generated=true

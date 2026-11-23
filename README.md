@@ -2,7 +2,17 @@
 
 Kuis real-time untuk pasangan LDR. Masing-masing main dari HP sendiri, menjawab 10 pertanyaan yang sama, dan setiap jawaban dibuka bersamaan begitu keduanya selesai memilih.
 
-React + Vite + TypeScript · Tailwind CSS v4 · Firebase Realtime Database + Anonymous Auth · Vitest
+## Teknologi
+
+| Bagian    | Teknologi                                                                  |
+| --------- | -------------------------------------------------------------------------- |
+| Antarmuka | **React 19** (komponen `.tsx`), **HTML**, **CSS** dengan Tailwind CSS v4   |
+| Bahasa    | **TypeScript** 6 (mode strict), **JavaScript** untuk konfigurasi           |
+| Build     | **Vite** 8                                                                 |
+| Back-end  | **Firebase** Realtime Database + Anonymous Auth, Security Rules dalam JSON |
+| Data      | Bank soal dalam **JSON** (`src/data/questions.json`)                       |
+| Pengujian | **Vitest** (unit dan integration), Firebase Emulator                       |
+| Deploy    | **Vercel**, CI dengan **GitHub Actions** (YAML), Dependabot                |
 
 ## Menjalankan secara lokal
 
