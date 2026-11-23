@@ -1,4 +1,26 @@
-# Statistik "Languages" di GitHub (Linguist).
+# ── Akhir baris ───────────────────────────────────────────────────────────────
+# Semua file teks memakai LF, baik di repo maupun di laptop, apa pun pengaturan
+# core.autocrlf di Git for Windows. Sama dengan .editorconfig dan Prettier (endOfLine: lf),
+# jadi `npm run check` tetap lolos setelah clone ulang di Windows.
+* text=auto eol=lf
+
+# Skrip Windows harus CRLF (tidak ada saat ini; berjaga-jaga).
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# File biner: Git tidak boleh mengubah isinya sama sekali.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
+
+# ── Statistik "Languages" di GitHub (Linguist) ────────────────────────────────
 # Secara bawaan, GitHub hanya menghitung kode program, mengabaikan folder docs/, dan tidak
 # menampilkan JSON, YAML, atau Markdown. Aturan di bawah menampilkan semua bahasa yang
 # dipakai proyek ini. React tidak bisa muncul di sini karena ia library, bukan bahasa:
